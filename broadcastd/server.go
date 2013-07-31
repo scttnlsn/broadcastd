@@ -2,7 +2,7 @@ package broadcastd
 
 import (
 	"fmt"
-	"io/ioutil"
+	"github.com/gorilla/mux"
 	"net"
 	"net/http"
 )
@@ -10,32 +10,32 @@ import (
 type Server struct {
 	Addr   string
 	Config *Config
+	Router *mux.Router
 	pubsub *Pubsub
 }
 
 func NewServer(config *Config, pubsub *Pubsub) *Server {
+	router := mux.NewRouter()
 	addr := fmt.Sprintf(":%d", config.Port)
-	return &Server{addr, config, pubsub}
+
+	s := &Server{addr, config, router, pubsub}
+
+	s.HandleFunc("/", s.PublishHandler).Methods("POST")
+	s.HandleFunc("/", s.SubscribeHandler).Methods("GET")
+
+	return s
+}
+
+func (s *Server) HandleFunc(route string, fn func(http.ResponseWriter, *http.Request)) *mux.Route {
+	return s.Router.HandleFunc(route, func(w http.ResponseWriter, req *http.Request) {
+		if ok := s.BeforeHandler(w, req); ok {
+			fn(w, req)
+		}
+	})
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	if req.Method == "GET" {
-		c := s.pubsub.Subscribe()
-
-		go c.Write(w)
-
-		if close, ok := w.(http.CloseNotifier); ok {
-			<-close.CloseNotify()
-			s.pubsub.Unsubscribe(c)
-		}
-	} else if req.Method == "POST" {
-		value, err := ioutil.ReadAll(req.Body)
-		if err != nil {
-			return
-		}
-
-		s.pubsub.Publish(string(value))
-	}
+	s.Router.ServeHTTP(w, req)
 }
 
 func (s *Server) ListenAndServe() error {

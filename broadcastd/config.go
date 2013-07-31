@@ -1,6 +1,7 @@
 package broadcastd
 
 type Config struct {
+	Auth string
 	Port uint
 }
 

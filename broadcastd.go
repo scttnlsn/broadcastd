@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"runtime"
 )
 
 var config *broadcastd.Config
@@ -13,6 +14,7 @@ func init() {
 	config = broadcastd.NewConfig()
 
 	flag.UintVar(&config.Port, "port", 5454, "port on which to listen")
+	flag.StringVar(&config.Auth, "auth", "", "HTTP basic auth password required for all requests")
 }
 
 func main() {
