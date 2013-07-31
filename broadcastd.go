@@ -18,6 +18,8 @@ func init() {
 func main() {
 	flag.Parse()
 
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	p := broadcastd.NewPubsub()
 	s := broadcastd.NewServer(config, p)
 
