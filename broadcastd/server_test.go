@@ -25,8 +25,9 @@ func (r *ClosableRecorder) CloseNotify() <-chan bool {
 }
 
 func TestServer(t *testing.T) {
+	c := NewConfig()
 	p := NewPubsub()
-	s := NewServer(p)
+	s := NewServer(c, p)
 
 	go p.Run()
 

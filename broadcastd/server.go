@@ -9,12 +9,13 @@ import (
 
 type Server struct {
 	Addr   string
+	Config *Config
 	pubsub *Pubsub
 }
 
-func NewServer(pubsub *Pubsub) *Server {
-	addr := fmt.Sprintf(":%d", 5454)
-	return &Server{addr, pubsub}
+func NewServer(config *Config, pubsub *Pubsub) *Server {
+	addr := fmt.Sprintf(":%d", config.Port)
+	return &Server{addr, config, pubsub}
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {

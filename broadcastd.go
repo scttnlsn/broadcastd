@@ -2,13 +2,24 @@ package main
 
 import (
 	"./broadcastd"
+	"flag"
 	"fmt"
 	"log"
 )
 
+var config *broadcastd.Config
+
+func init() {
+	config = broadcastd.NewConfig()
+
+	flag.UintVar(&config.Port, "port", 5454, "port on which to listen")
+}
+
 func main() {
+	flag.Parse()
+
 	p := broadcastd.NewPubsub()
-	s := broadcastd.NewServer(p)
+	s := broadcastd.NewServer(config, p)
 
 	go p.Run()
 
