@@ -32,4 +32,5 @@ Publish message to connected clients.
 
 ## CLI Options
 
+* **-auth=""** - HTTP basic auth password required for all requests
 * **-port=5454** - port on which to listen
