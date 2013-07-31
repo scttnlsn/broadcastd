@@ -29,3 +29,7 @@ Messages will be newline separated.
     $ curl -X POST http://localhost:5454 -d "Hello World"
 
 Publish message to connected clients.
+
+## CLI Options
+
+* **-port=5454** - port on which to listen
