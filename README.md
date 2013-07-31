@@ -14,7 +14,7 @@ Ensure Go is installed and then run:
 
 **Run:**
 
-    $ broadcastd
+    $ broadcastd [options]
 
 ## API
 
