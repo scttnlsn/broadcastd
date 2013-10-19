@@ -1,9 +1,9 @@
 package main
 
 import (
-	"./broadcastd"
 	"flag"
 	"fmt"
+	"github.com/scttnlsn/broadcastd/broadcastd"
 	"log"
 	"runtime"
 )
