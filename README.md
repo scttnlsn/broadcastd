@@ -8,7 +8,6 @@ Simple HTTP-based pubsub server
 
 Ensure Go is installed and then run:
 
-    $ go get
     $ make
     $ sudo make install
 
@@ -34,3 +33,4 @@ Publish message to connected clients.
 
 * **-auth=""** - HTTP basic auth password required for all requests
 * **-port=5454** - port on which to listen
+* **-v** - output the version number

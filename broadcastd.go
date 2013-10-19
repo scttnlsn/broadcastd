@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/scttnlsn/broadcastd/broadcastd"
 	"log"
+	"os"
 	"runtime"
 )
 
@@ -18,7 +19,14 @@ func init() {
 }
 
 func main() {
+	version := flag.Bool("v", false, "output the version number")
+
 	flag.Parse()
+
+	if *version {
+		fmt.Println(broadcastd.Version)
+		os.Exit(0)
+	}
 
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
